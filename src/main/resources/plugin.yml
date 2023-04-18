@@ -1,0 +1,4 @@
+name: SpawnUtils
+version: '${project.version}'
+main: me.not_black.spawnutils.SpawnUtils
+api-version: 1.18
