@@ -1,0 +1,9 @@
+respawningTime: 90
+rtpTries: 50
+rangeOnDeathRtp: 1000
+overworldName: world
+range:
+  xmin: -10000000
+  xmax: 10000000
+  zmin: -10000000
+  zmax: 10000000

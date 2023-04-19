@@ -1,4 +1,16 @@
 name: SpawnUtils
-version: '${project.version}'
+version: '0.1'
 main: me.not_black.spawnutils.SpawnUtils
 api-version: 1.18
+commands:
+  spawnutils:
+    aliases: su
+    permission: su.access
+    usage: /su reload -- Reload plugin\n/su skip -- Skip Respawn
+permissions:
+  su.access:
+    default: op
+  su.reload:
+    default: op
+  su.skip:
+    default: op
