@@ -18,6 +18,7 @@ public final class RespawnListener implements Listener {
     public void onPlayerRespawnEvent(PlayerRespawnEvent event) {
         event.getPlayer().setGameMode(GameMode.SPECTATOR);
         PlayerData data = plugin.getPlayerManager().getPlayer(event.getPlayer().getUniqueId());
+        event.setRespawnLocation(data.getLastDeath());
         data.setRespawnTimestamp(System.currentTimeMillis() + plugin.getConfig().getInt("respawningTime") * 1000L);
         plugin.getPlayerManager().setPlayer(data);
     }

@@ -20,12 +20,16 @@ public final class JoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        if (pm.hasPlayer(event.getPlayer().getUniqueId())) {
+        if (event.getPlayer().hasPlayedBefore()) {
             PlayerData tmp = pm.getPlayer(event.getPlayer().getUniqueId());
             if (tmp.isRespawnImmediately()) {
                 tmp.setRespawnImmediately(false);
-                plugin.randomSpread(event.getPlayer(), tmp.getLastDeath(), plugin.getConfig().getInt("rangeOnDeathRtp"));
+                pm.setPlayer(tmp);
                 event.getPlayer().setGameMode(GameMode.SURVIVAL);
+                if (event.getPlayer().getBedSpawnLocation()!=null) event.getPlayer().teleport(event.getPlayer().getBedSpawnLocation());
+                else {
+                    plugin.randomSpread(event.getPlayer(), tmp.getLastDeath(), plugin.getConfig().getInt("rangeOnDeathRtp"));
+                }
             }
         } else {
             Location l1 = new Location(event.getPlayer().getWorld(), plugin.getConfig().getInt("range.xmin"), 0, plugin.getConfig().getInt("range.zmin"));

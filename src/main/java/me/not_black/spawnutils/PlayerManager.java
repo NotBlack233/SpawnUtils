@@ -7,11 +7,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class PlayerManager {
     private final File playersFolder;
     private final Map<UUID, PlayerData> playerDataMap = new HashMap<>();
-    private final List<UUID> respawningList = new ArrayList<>();
+    private final CopyOnWriteArrayList<UUID> respawningList = new CopyOnWriteArrayList<>();
     private final SpawnUtils plugin;
 
     public PlayerManager(SpawnUtils plugin) {
@@ -31,7 +32,10 @@ public final class PlayerManager {
             Location location = fc.getLocation("location");
             long resTime = fc.getLong("resTime");
             boolean resImme = fc.getBoolean("resImme");
-            if (System.currentTimeMillis() >= resTime && resTime != -1) resImme = true;
+            if (System.currentTimeMillis() >= resTime && resTime != -1) {
+                resImme = true;
+                resTime=-1;
+            }
             else respawningList.add(uuid);
             playerDataMap.put(uuid, new PlayerData(uuid, location, resTime, resImme));
         }

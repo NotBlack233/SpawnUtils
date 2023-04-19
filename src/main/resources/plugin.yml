@@ -1,5 +1,5 @@
 name: SpawnUtils
-version: '0.1'
+version: '0.1.1'
 main: me.not_black.spawnutils.SpawnUtils
 api-version: 1.18
 commands:

@@ -10,28 +10,24 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Objects;
 import java.util.Random;
 
 public final class SpawnUtils extends JavaPlugin {
     private PlayerManager playerManager;
-    private RespawningController respawningController;
-    private BukkitTask task;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         saveDefaultConfig();
         playerManager = new PlayerManager(this);
-        respawningController = new RespawningController(this);
+        reload();
         Bukkit.getPluginManager().registerEvents(new JoinListener(this), this);
         Bukkit.getPluginManager().registerEvents(new RespawnListener(this), this);
         Bukkit.getPluginManager().registerEvents(new DeathListener(this), this);
         Objects.requireNonNull(getCommand("spawnutils")).setExecutor(new MainCommand(this));
         Objects.requireNonNull(getCommand("spawnutils")).setTabCompleter(new MainCommand(this));
-        reload();
         this.getLogger().info("Plugin loaded.");
     }
 
@@ -43,9 +39,9 @@ public final class SpawnUtils extends JavaPlugin {
 
     public void reload() {
         reloadConfig();
-        task.cancel();
+        Bukkit.getScheduler().cancelTasks(this);
         playerManager.reload();
-        task = respawningController.runTaskTimerAsynchronously(this, 20L, 20L);
+        new RespawningController(this).runTaskTimer(this, 20L, 20L);
     }
 
     public PlayerManager getPlayerManager() {
